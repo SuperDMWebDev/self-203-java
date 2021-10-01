@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/auth")
@@ -22,8 +23,10 @@ public class AuthApi {
 
     @PostMapping("/register")
     public User register(@RequestBody RegisterRequest request) {
-        User user = new User("user1",
+        User user = new User(
+                UUID.randomUUID().toString(),
                 request.getUsername(),
+                request.getEmail(),
                 request.getPassword(),
                 request.getFullName());
 
