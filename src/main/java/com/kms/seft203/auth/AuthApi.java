@@ -3,55 +3,48 @@ package com.kms.seft203.auth;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.kms.seft203.auth.exception.DataNotFoundException;
+import com.kms.seft203.auth.exception.ExistDataException;
+import com.kms.seft203.auth.request.LoginRequest;
+import com.kms.seft203.auth.request.LogoutRequest;
+import com.kms.seft203.auth.request.RegisterRequest;
+import com.kms.seft203.auth.response.LoginResponse;
+import com.kms.seft203.auth.service.UserService;
+import com.kms.seft203.dto.User;
+import org.apache.coyote.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import javax.validation.Valid;
+import java.util.*;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthApi {
 
+    @Autowired
+    private UserService userService;
+    // temp data for save
     private static final Map<String, User> DATA = new HashMap<>();
 
+    @GetMapping("/test")
+    public String test()
+    {
+        return "test";
+    }
     @PostMapping("/register")
-    public User register(@RequestBody RegisterRequest request) {
-        User user = new User(
-                UUID.randomUUID().toString(),
-                request.getUsername(),
-                request.getEmail(),
-                request.getPassword(),
-                request.getFullName());
-
-        DATA.put(user.getUsername(), user);
-
-        // TODO: remove user's password
-        return user;
+    public ResponseEntity<User> register(@RequestBody @Valid RegisterRequest registerRequest) throws ExistDataException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.register(registerRequest));
     }
 
+
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-        if ("admin".equals(request.getUsername()) && "Admin@123".equals(request.getPassword())) {
-            LoginResponse loginResponse = new LoginResponse(
-                    createJwtToken("admin", "Admin User"), "<refresh_token>");
-            return ResponseEntity.ok(loginResponse);
-        }
-
-        User user = DATA.get(request.getUsername());
-        if (user != null && user.getPassword().equals(request.getPassword())) {
-            LoginResponse loginResponse = new LoginResponse(
-                    createJwtToken(request.getUsername(), user.getFullName()), "<refresh_token>");
-            return ResponseEntity.ok(loginResponse);
-        }
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) throws DataNotFoundException {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.login(loginRequest));
     }
 
     private String createJwtToken(String user, String displayName) {
@@ -68,8 +61,12 @@ public class AuthApi {
             return "";
         }
     }
-
     @PostMapping("/logout")
-    public void logout(@RequestBody LogoutRequest request) {
+    public ResponseEntity<Object>logout(@Valid @RequestBody LogoutRequest logoutRequest)
+    {
+        userService.logout(logoutRequest);
+        return ResponseEntity.ok().body("Logout successfully");
+
     }
+
 }
