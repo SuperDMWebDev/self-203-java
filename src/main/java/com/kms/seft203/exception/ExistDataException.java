@@ -1,4 +1,4 @@
-package com.kms.seft203.auth.exception;
+package com.kms.seft203.exception;
 
 
 public class ExistDataException extends Exception{

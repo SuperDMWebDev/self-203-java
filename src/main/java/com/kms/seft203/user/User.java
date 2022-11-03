@@ -1,17 +1,18 @@
-package com.kms.seft203.dto;
+package com.kms.seft203.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kms.seft203.auth.request.RegisterRequest;
+import com.kms.seft203.request.RegisterRequest;
 import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="user",schema="public")
+@Table(name="user", schema ="public")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class User {
 
     @Id
@@ -30,6 +31,12 @@ public class User {
     @Column(name="full_name")
     private String fullName;
 
+    @Column(name="enabled")
+    private Boolean enabled;
+
+    @Column(name="verification_code")
+    private String verificationcode;
+
     public User(String username, String email, String password, String fullName) {
         this.username = username;
         this.email = email;
@@ -37,9 +44,22 @@ public class User {
         this.fullName = fullName;
     }
 
+    public User(String username, String email, String password, String fullName, Boolean enabled, String verificationCode) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+        this.enabled = enabled;
+        this.verificationcode = verificationCode;
+    }
+
     public static User createUser(RegisterRequest registerRequest)
     {
         System.out.println("Register request "+ registerRequest );
-        return new User(0L,registerRequest.getUsername(),registerRequest.getEmail(),registerRequest.getPassword(),registerRequest.getFullName());
+        return new User(registerRequest.getUsername(),registerRequest.getEmail(),registerRequest.getPassword(),registerRequest.getFullName());
+    }
+    public boolean isEnabled()
+    {
+        return enabled;
     }
 }

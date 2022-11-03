@@ -1,4 +1,4 @@
-package com.kms.seft203.auth.request;
+package com.kms.seft203.request;
 
 import lombok.Data;
 

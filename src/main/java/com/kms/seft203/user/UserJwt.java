@@ -1,7 +1,6 @@
-package com.kms.seft203.dto;
+package com.kms.seft203.user;
 
 import lombok.*;
-import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 

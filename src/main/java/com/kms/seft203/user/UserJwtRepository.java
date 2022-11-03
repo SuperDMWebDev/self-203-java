@@ -1,6 +1,5 @@
-package com.kms.seft203.auth.repository;
+package com.kms.seft203.user;
 
-import com.kms.seft203.dto.UserJwt;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

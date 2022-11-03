@@ -1,4 +1,4 @@
-package com.kms.seft203.auth.response;
+package com.kms.seft203.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
