@@ -1,9 +1,22 @@
 package com.kms.seft203.task;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+
+import javax.validation.constraints.NotBlank;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
-public class SaveTaskRequest extends Task {
+public class SaveTaskRequest  {
+    @NotBlank(message = "Task must not empty")
+    private String task;
+
+    public SaveTaskRequest()
+    {
+        System.out.println("No args passed in ");
+    }
+
+    public SaveTaskRequest(String task)
+    {
+        System.out.println("All args passed in ");
+        this.task = task;
+    }
 }
