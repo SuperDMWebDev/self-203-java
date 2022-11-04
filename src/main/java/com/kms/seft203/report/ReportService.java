@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Locale;
@@ -30,7 +31,8 @@ public class ReportService {
 
     private List<Object> countFieldOfTask(String field, User user) {
         if ("isCompleted".equals(field)) {
-            return List.copyOf(taskRepository.findAllCompletion(user.getId()));
+
+            return Collections.singletonList(taskRepository.findAllCompletion(user.getId())); // oruse List.copyOf
         }
         throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "There 's no such fieldname");
     }
@@ -112,7 +114,7 @@ public class ReportService {
         return list.stream().collect(
                 Collectors.groupingBy(
                         Object:: toString,
-                        Collectors.reducing(0,e->1,Integer::sum)
+                        Collectors.reducing(0,(element)-> 1,Integer::sum) // number of element
                 )
         );
     }
