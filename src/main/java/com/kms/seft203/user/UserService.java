@@ -46,10 +46,6 @@ public class  UserService {
         {
             throw new ExistDataException("username is already registered");
         }
-        if(userRepository.findByEmail(registerRequest.getEmail()).isPresent())
-        {
-            throw new ExistDataException("Email is already registered");
-        }
         User user = User.createUser(registerRequest); // create user but password still not encode
         System.out.println("User created " + user.toString());
         if(user != null)

@@ -34,7 +34,7 @@ public class ReportService {
 
             return Collections.singletonList(taskRepository.findAllCompletion(user.getId())); // oruse List.copyOf
         }
-        throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "There 's no such fieldname");
+        throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Cannot find field of tasks");
     }
 
     public List<Object> countFieldOfContact(String field) {
@@ -62,7 +62,7 @@ public class ReportService {
                         .collect(Collectors.toList());
             }
             default:
-                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "There's no such field");
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Cannot find field of contact");
         }
     }
 
@@ -81,7 +81,7 @@ public class ReportService {
                         .collect(Collectors.toList());
             }
             default:
-                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "There's no such fieldname");
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Cannot find field of dashboard");
         }
     }
 
@@ -89,7 +89,6 @@ public class ReportService {
     public Map<String,Integer> countFieldByCollection (String collection, String field, User user)
     {
         String lowerCollection= collection.toLowerCase(Locale.ROOT);
-        String lowerField = field.toLowerCase(Locale.ROOT);
         List<Object> list;
         switch(lowerCollection)
         {
@@ -109,7 +108,7 @@ public class ReportService {
                 break;
             }
             default :
-                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"There 's no such collection");
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE,"Cannot find collection which you passed in");
         }
         return list.stream().collect(
                 Collectors.groupingBy(
