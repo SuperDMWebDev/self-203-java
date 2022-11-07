@@ -46,7 +46,7 @@ public class TaskService {
         Task task = taskRepository.findTaskById(id).orElse(null);
         if(task != null)
         {
-            taskRepository.delete(task);
+            taskRepository.deleteTaskById(task.getId());
         }
     }
 }

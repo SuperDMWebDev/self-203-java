@@ -16,10 +16,15 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven {
+		url "https://repo.spring.io/release"
+	}
+	maven {
+		url "https://repository.jboss.org/maven2"
+	}
 }
 
 dependencies {
-
 	implementation 'com.fasterxml.jackson.core:jackson-core:2.13.4'
 	implementation group: 'org.springframework.security', name: 'spring-security-crypto', version: '5.7.4'
 	implementation 'org.springframework:spring-context-support'
@@ -31,6 +36,7 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-ui:1.5.9'
 	implementation 'com.auth0:java-jwt:3.18.1'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'com.opencsv:opencsv:4.5'
     compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'

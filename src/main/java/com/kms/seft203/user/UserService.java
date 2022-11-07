@@ -8,6 +8,7 @@ import com.kms.seft203.exception.ExistDataException;
 import com.kms.seft203.response.LoginResponse;
 import com.kms.seft203.jwt.JwtService;
 import net.bytebuddy.utility.RandomString;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -94,8 +95,10 @@ public class  UserService {
 
     public void logout(LogoutRequest logoutRequest) {
         UserJwt userJwt = userJwtRepository.findByUserId(logoutRequest.getUserId()).orElse(null);
-        assert userJwt != null : "User not found";
-        userJwtRepository.delete(userJwt);
+        if(ObjectUtils.isNotEmpty(userJwt))
+        {
+            userJwtRepository.delete(userJwt);
+        }
     }
     public User findUserByUserName(String username) {
         User user = userRepository.findByUsername(username).orElse(null);

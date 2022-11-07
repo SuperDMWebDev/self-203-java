@@ -17,14 +17,14 @@ public class SaveContactRequest extends Contact {
     @NotBlank
     private String title;
 
-    @NotBlank
-    private Integer employeeId;
-
     private String department;
 
     private String project;
 
     private String avatar;
+
+    @NotBlank
+    private Integer employeeId;
 
 
 }
