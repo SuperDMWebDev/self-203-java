@@ -87,10 +87,12 @@ public class ContactApi {
         }
         CSVReader csvReader = new CSVReader(new FileReader(path));
         List<String[]> listContacts = new ArrayList<String[]>();
-        String [] nextLine ;
+        int totalLine = 0;
+        String[] nextLine ;
         csvReader.readNext(); // first row contains column name
         while((nextLine = csvReader.readNext()) != null)
         {
+            totalLine ++;
             listContacts.add(nextLine);
         }
         for(String[] contact: listContacts)
@@ -98,6 +100,8 @@ public class ContactApi {
             SaveContactRequest saveContactRequest = new SaveContactRequest(contact[0],contact[1],contact[2],contact[3],contact[4],contact[5],Integer.parseInt(contact[6]));
             contactService.createContact(saveContactRequest);
         }
+        System.out.println("total line "+ totalLine);
+        csvReader.close();
 
     }
     @PostMapping
